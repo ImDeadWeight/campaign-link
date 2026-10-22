@@ -22,6 +22,8 @@ CampaignLink/                 %APPDATA%\CampaignLink on Windows
   either app proposes, the other adopts, and either can end it (`resolveLink`).
 - **Catalogues** carry only what the other app needs: names, page types, place and area nesting, combat state.
   No lore text and no stat blocks.
+- **The sync loop** (`createLinkSync`) is the same in both apps: read the other index, settle links, publish this
+  app's index and linked catalogues, writing only files whose data changed.
 - **Links** open the other app: `encounters://encounter/<id>`, `encounters://character/<id>`,
   `lorekeeper://page/<notebook id>/<page id>`.
 
@@ -39,4 +41,4 @@ npm test        # handshake, catalogues, links
 npm run build   # dist/ (also runs when an app installs this package from GitHub)
 ```
 
-The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.1.0"`.
+The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.2.0"`.
