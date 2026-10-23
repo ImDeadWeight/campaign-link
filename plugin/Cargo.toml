@@ -1,0 +1,14 @@
+[package]
+name = "tauri-plugin-link-folder"
+version = "0.1.0"
+description = "Android access to the shared Campaign Link folder: pick it once with the system picker, keep access, read and write files in it."
+edition = "2021"
+links = "tauri-plugin-link-folder"
+license = "MIT"
+
+[dependencies]
+tauri = "2"
+serde = { version = "1", features = ["derive"] }
+
+[build-dependencies]
+tauri-plugin = { version = "2", features = ["build"] }

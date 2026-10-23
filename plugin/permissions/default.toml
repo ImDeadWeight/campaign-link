@@ -1,0 +1,5 @@
+"$schema" = "schemas/schema.json"
+
+[default]
+description = "Pick the shared Campaign Link folder and read and write files in it (Android)."
+permissions = ["allow-pick-folder", "allow-get-folder", "allow-read-text", "allow-write-text"]

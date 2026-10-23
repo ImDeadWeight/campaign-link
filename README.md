@@ -41,4 +41,9 @@ npm test        # handshake, catalogues, links
 npm run build   # dist/ (also runs when an app installs this package from GitHub)
 ```
 
-The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.2.0"`.
+The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.3.0"`.
+
+## Android
+
+On Android the apps can't share a folder by themselves; the Tauri plugin in [`plugin/`](plugin/README.md)
+(`tauri-plugin-link-folder`) lets the user pick the shared folder once in each app and does the reading and writing.
