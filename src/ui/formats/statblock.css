@@ -1,0 +1,129 @@
+/* @file Stat block view and editor layout shared by every format. */
+
+.statblock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.sb-subtitle {
+  font-style: italic;
+}
+
+.sb-section {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.sb-heading {
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: #8fb4ff;
+}
+
+.sb-entry {
+  margin: 0 0 6px;
+  white-space: pre-wrap;
+}
+
+.sb-abilities {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.sb-ability-name {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Editor */
+.sb-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sb-editor fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sb-editor legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+
+.sb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.sb-ability-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sb-ability-edit input[type='number'] {
+  width: 64px;
+  text-align: center;
+}
+
+.sb-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px 16px;
+}
+
+.sb-skill-grid .skill-select {
+  width: 120px;
+}
+
+.entry-edit {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.entry-edit .entry-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entry-edit textarea {
+  min-height: 52px;
+  resize: vertical;
+}
+
+.entry-edit .entry-inline {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.entry-edit .entry-inline .grow {
+  flex: 1;
+  min-width: 140px;
+}
+
+.entry-edit .entry-inline input[type='number'] {
+  width: 72px;
+}
+
+.action-cost {
+  font-size: 12px;
+  color: #8fb4ff;
+}

@@ -1,7 +1,7 @@
 {
   "name": "campaign-link",
-  "version": "0.3.0",
-  "description": "The shared contract between Lorekeeper and Encounters: the Campaign Link folder layout, the files each app publishes there, and links that open the other app.",
+  "version": "0.4.0",
+  "description": "The shared code between Lorekeeper and Encounters: the Campaign Link folder layout, the files each app publishes there, links that open the other app, and the game formats with their stat block views and editors.",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -10,17 +10,38 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./formats/*": {
+      "types": "./dist/formats/*.d.ts",
+      "default": "./dist/formats/*.js"
+    },
+    "./ui/*.css": "./dist/ui/*.css",
+    "./ui/*": {
+      "types": "./dist/ui/*.d.ts",
+      "default": "./dist/ui/*.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "prepare": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
+    "prepare": "tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "lucide-react": "^0.454.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4"
+  },
+  "peerDependencies": {
+    "lucide-react": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

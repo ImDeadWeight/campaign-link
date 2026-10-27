@@ -1,8 +1,9 @@
 # Campaign Link
 
-The shared contract between [Lorekeeper](https://github.com/ImDeadWeight/Lorekeeper) (campaign notes) and
+The shared code between [Lorekeeper](https://github.com/ImDeadWeight/Lorekeeper) (campaign notes) and
 [Encounters](https://github.com/ImDeadWeight/Encounters) (encounter builder and initiative tracker).
-Both apps install this package, so they always agree on the files they exchange and the links they open.
+Both apps install this package, so they always agree on the files they exchange, the links they open, and the
+game systems' stat blocks.
 
 ## How the apps share
 
@@ -20,8 +21,9 @@ CampaignLink/                 %APPDATA%\CampaignLink on Windows
 
 - **Linking** a Lorekeeper notebook to an Encounters campaign is a handshake through the two index files:
   either app proposes, the other adopts, and either can end it (`resolveLink`).
-- **Catalogues** carry only what the other app needs: names, page types, place and area nesting, combat state.
-  No lore text and no stat blocks.
+- **Catalogues** carry only what the other app needs: names, page types, place and area nesting, combat state,
+  and the stat blocks of connected characters (a Character page's, and those of Encounters characters made from
+  it), so either app can take the other's copy. No lore text.
 - **The sync loop** (`createLinkSync`) is the same in both apps: read the other index, settle links, publish this
   app's index and linked catalogues, writing only files whose data changed.
 - **Links** open the other app: `encounters://encounter/<id>`, `encounters://character/<id>`,
@@ -41,7 +43,15 @@ npm test        # handshake, catalogues, links
 npm run build   # dist/ (also runs when an app installs this package from GitHub)
 ```
 
-The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.3.0"`.
+The apps depend on a tagged version: `"campaign-link": "github:ImDeadWeight/campaign-link#v0.4.0"`.
+
+## Game formats and stat blocks
+
+- `campaign-link/formats/*`: the game systems (5e 2014 and 2024, PF2e, SF2e, PF1e, 3.5e, B/X): each one's stat
+  block shape, conditions, combat rules, and checks for imported data; `registry` looks them up by id.
+- `campaign-link/ui/*`: each system's stat block view and editor (React; `ui/formats/formatUi` pairs them), and the
+  small form controls they use. The apps provide React, react-dom and lucide-react.
+- `SharedStatBlock` (`statBlocks.ts`): a stat block with its system, as the catalogues carry it.
 
 ## Android
 

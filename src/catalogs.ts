@@ -1,9 +1,11 @@
 /**
  * @file The catalogues each app publishes for a linked campaign: just enough
- * for the other app to suggest names, list encounters and open things —
- * never the full data (no lore text, no stat blocks).
+ * for the other app to suggest names, list encounters, open things and take
+ * a connected character's stat block — never the full data (no lore text).
  */
 import { count, header, id, isObject, list, LinkFileError, oneOf, optionalId, readHeader, text, type FileHeader } from './files.js';
+import type { FormatId } from './formats/formatIds.js';
+import { isFormatId, readSharedStatBlock, type SharedStatBlock } from './statBlocks.js';
 
 /** Player character or non-player character (Lorekeeper and Encounters make the same split). */
 export type CharacterKind = 'pc' | 'npc';
@@ -24,6 +26,8 @@ export interface LorePage {
   id: string;
   title: string;
   info: LorePageInfo;
+  /** Character pages: the page's stat block, when it has one. */
+  statBlock?: SharedStatBlock;
 }
 
 /** A linked notebook's published pages. */
@@ -45,7 +49,9 @@ export function readLorekeeperCatalog(fileText: string): LorekeeperCatalog {
   list(file.pages, 'the page list').forEach((raw, i) => {
     if (!isObject(raw)) throw new LinkFileError(`page ${i + 1} is damaged`);
     const info = readPageInfo(raw.info);
-    if (info) pages.push({ id: id(raw.id, `page ${i + 1}`), title: text(raw.title, 'Untitled page'), info });
+    if (!info) return;
+    const statBlock = readSharedStatBlock(raw.statBlock);
+    pages.push({ id: id(raw.id, `page ${i + 1}`), title: text(raw.title, 'Untitled page'), info, ...(statBlock ? { statBlock } : {}) });
   });
   return { ...file, notebookId: id(file.notebookId, 'the notebook'), name: text(file.name, 'Untitled notebook'), pages };
 }
@@ -107,12 +113,16 @@ export interface LinkCharacter {
   name: string;
   kind: CharacterKind;
   lorePageId: string | null;
+  /** Characters made from a Lorekeeper page: their stat block, when they have one. */
+  statBlock?: SharedStatBlock;
 }
 
 /** A linked campaign's published areas, encounters and characters. */
 export interface EncountersCatalog extends FileHeader<'encounters-catalog'> {
   campaignId: string;
   name: string;
+  /** The campaign's game system (new stat blocks in Lorekeeper start with it); absent when it has none. */
+  formatId?: FormatId;
   areas: LinkArea[];
   encounters: LinkEncounter[];
   characters: LinkCharacter[];
@@ -122,7 +132,7 @@ export interface EncountersCatalog extends FileHeader<'encounters-catalog'> {
 export function makeEncountersCatalog(
   campaignId: string,
   name: string,
-  content: Pick<EncountersCatalog, 'areas' | 'encounters' | 'characters'>,
+  content: Pick<EncountersCatalog, 'areas' | 'encounters' | 'characters' | 'formatId'>,
   now?: Date,
 ): EncountersCatalog {
   return { ...header('encounters-catalog', 'encounters', now), campaignId, name, ...content };
@@ -161,17 +171,20 @@ export function readEncountersCatalog(fileText: string): EncountersCatalog {
   });
   const characters = list(file.characters, 'the character list').map((raw, i): LinkCharacter => {
     const c = object(raw, `character ${i + 1}`);
+    const statBlock = readSharedStatBlock(c.statBlock);
     return {
       id: id(c.id, `character ${i + 1}`),
       name: text(c.name, 'Unnamed'),
       kind: oneOf(c.kind, CHARACTER_KINDS, 'npc'),
       lorePageId: optionalId(c.lorePageId),
+      ...(statBlock ? { statBlock } : {}),
     };
   });
   return {
     ...file,
     campaignId: id(file.campaignId, 'the campaign'),
     name: text(file.name, 'Untitled campaign'),
+    ...(isFormatId(file.formatId) ? { formatId: file.formatId } : {}),
     areas,
     encounters,
     characters,

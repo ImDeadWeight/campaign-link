@@ -103,7 +103,7 @@ export function sameData<T extends FileHeader<string>>(a: T | null, b: T | null)
 }
 
 /** JSON with object keys sorted, so equal content always gives equal text. */
-function stable(v: unknown): string {
+export function stable(v: unknown): string {
   if (Array.isArray(v)) return `[${v.map(stable).join(',')}]`;
   if (isObject(v)) {
     const keys = Object.keys(v).filter((k) => v[k] !== undefined).sort();

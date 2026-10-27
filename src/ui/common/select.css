@@ -1,0 +1,51 @@
+/* @file Themed dropdowns: the Select button and the shared popup list used by all pickers. */
+
+.select-trigger {
+  justify-content: space-between;
+  background: var(--bg);
+  padding: 6px 8px;
+  min-width: 0;
+  text-align: left;
+}
+
+.select-trigger:hover:not(:disabled) {
+  background: var(--panel-raised);
+}
+
+.select-trigger[aria-expanded='true'] {
+  border-color: var(--accent);
+}
+
+.select-value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Shared by Select and the tag suggestions. Above modals (z 10) and notices (z 20). */
+.popup-list {
+  z-index: 30;
+  overflow-y: auto;
+  background: var(--panel-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  padding: 4px;
+}
+
+.popup-option {
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.popup-option.active {
+  background: var(--panel-hover);
+}
+
+.popup-option.selected {
+  color: #8fb4ff;
+  font-weight: 600;
+}

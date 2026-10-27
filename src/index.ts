@@ -6,5 +6,6 @@ export * from './files.js';
 export * from './folder.js';
 export * from './appIndex.js';
 export * from './catalogs.js';
+export * from './statBlocks.js';
 export * from './links.js';
 export * from './sync.js';
